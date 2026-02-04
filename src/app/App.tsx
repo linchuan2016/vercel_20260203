@@ -7,11 +7,13 @@ import { TechPage } from "@/app/pages/TechPage";
 import { InsightsPage } from "@/app/pages/InsightsPage";
 import { CommercialPage } from "@/app/pages/CommercialPage";
 import { MethodologyPage } from "@/app/pages/MethodologyPage";
-import { LoginPage } from "@/app/pages/LoginPage";
-import { RegisterPage } from "@/app/pages/RegisterPage";
-import { Toaster } from "sonner";
+import { useEffect } from "react";
 
 export default function App() {
+  useEffect(() => {
+    document.title = "futurepm";
+  }, []);
+
   return (
     <BrowserRouter>
       <LanguageProvider>
@@ -23,11 +25,8 @@ export default function App() {
             <Route path="/tech" element={<TechPage />} />
             <Route path="/insights" element={<InsightsPage />} />
             <Route path="/commercial" element={<CommercialPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
           </Routes>
           <Footer />
-          <Toaster position="top-center" richColors />
         </main>
       </LanguageProvider>
     </BrowserRouter>

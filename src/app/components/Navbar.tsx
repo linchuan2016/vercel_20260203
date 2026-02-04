@@ -1,36 +1,13 @@
 import { motion } from "motion/react";
-import { Menu, X, Globe, User } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Menu, X, Globe } from "lucide-react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "@/app/context/LanguageContext";
-import { supabase } from "@/utils/supabaseClient";
-import { toast } from "sonner";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
-  const [session, setSession] = useState<any>(null);
   const location = useLocation();
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) toast.error(error.message);
-    else toast.success("Logged out successfully");
-  };
 
   const links = [
     { name: t('nav.methodology'), href: "/methodology" },
@@ -75,27 +52,6 @@ export function Navbar() {
             <Globe className="w-4 h-4" />
             <span>{language === 'en' ? '中文' : 'English'}</span>
           </button>
-
-          {session ? (
-             <button
-              onClick={handleLogout}
-              className="text-sm font-medium text-neutral-400 hover:text-white transition-colors"
-            >
-              {t('nav.logout')}
-            </button>
-          ) : (
-            <div className="flex items-center gap-4">
-              <Link to="/login" className="text-sm font-medium text-neutral-400 hover:text-white transition-colors">
-                {t('nav.login')}
-              </Link>
-              <Link
-                to="/register"
-                className="px-5 py-2 bg-white text-black text-sm font-medium rounded-full hover:bg-neutral-200 transition-colors"
-              >
-                {t('nav.register')}
-              </Link>
-            </div>
-          )}
         </div>
 
         {/* Mobile Nav Toggle */}
@@ -133,23 +89,6 @@ export function Navbar() {
                 {link.name}
               </Link>
             ))}
-            
-            <div className="h-px w-full bg-white/10" />
-
-            {session ? (
-              <button onClick={() => { handleLogout(); setIsOpen(false); }} className="text-lg font-medium text-neutral-400 hover:text-white text-left">
-                {t('nav.logout')}
-              </button>
-            ) : (
-              <>
-                <Link to="/login" onClick={() => setIsOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white">
-                  {t('nav.login')}
-                </Link>
-                <Link to="/register" onClick={() => setIsOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white">
-                  {t('nav.register')}
-                </Link>
-              </>
-            )}
           </div>
         </motion.div>
       )}

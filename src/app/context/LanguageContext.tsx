@@ -120,7 +120,7 @@ export const translations = {
       devTitle: "AI Efficiency Tools",
       devTools: [
         { name: "Cursor", category: "AI Editor", description: "The AI-first code editor building software faster." },
-        { name: "Molbot", category: "AI Agent", description: "Advanced autonomous agent for complex task execution." },
+        { name: "Moltbot", category: "AI Agent", description: "Advanced autonomous agent for complex task execution." },
         { name: "NotebookLM", category: "Knowledge", description: "Personalized AI research assistant grounded in your documents." },
         { name: "Manus", category: "Automation", description: "AI-powered tool for streamlined workflow automation." }
       ],
@@ -367,16 +367,16 @@ export const translations = {
           audienceZh: "目标用户",
           digitalize: "Digitalize",
           digitalizeZh: "数字技术",
-          yAxisTop: "确定性 高",
-          yAxisBottom: "确定性 低",
-          xAxisLeft: "成本 低",
-          xAxisRight: "成本 高",
+          yAxisTop: "确定性高",
+          yAxisBottom: "确定性低",
+          xAxisLeft: "成本低",
+          xAxisRight: "成本高",
           q1Sub: "0-1",
           q2Sub: "1-10",
           q3Sub: "0-100",
           q4Sub: "10-100",
           q1Keywords: ["产品路线", "组织准备"],
-          q2Keywords: ["实验�����", "工作编排"],
+          q2Keywords: ["实验模", "工作编排"],
           q3Keywords: ["终端客户", "内部用户"],
           q4Keywords: ["AI", "数字化系统"]
         }
@@ -401,7 +401,7 @@ export const translations = {
       devTitle: "AI 效能工具",
       devTools: [
         { name: "Cursor", category: "AI 编辑器", description: "构建软件更快的 AI 优先代码编辑器。" },
-        { name: "Molbot", category: "AI 智能体", description: "用于执行复杂任务的高级自主智能体。" },
+        { name: "Moltbot", category: "AI 智能体", description: "用于执行复杂任务的高级自主智能体。" },
         { name: "NotebookLM", category: "知识助手", description: "基于您文档的个性化 AI 研究助手。" },
         { name: "Manus", category: "自动化", description: "简化工作流程的 AI 驱动工具。" }
       ],
@@ -435,7 +435,7 @@ export const translations = {
         {
           name: "Gemini (Google)",
           category: "原生多模态",
-          description: "实时无缝地跨文本、图像���视频和音频进行推理。"
+          description: "实时无缝地跨文本、图像视频和音频进行推理。"
         }
       ],
       tools: [

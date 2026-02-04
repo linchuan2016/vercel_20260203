@@ -2,54 +2,108 @@ import { useLanguage } from '@/app/context/LanguageContext';
 import { motion } from 'motion/react';
 
 export function ValueModelDiagram() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const valueModel = t('tech.valueModel') || {};
   const labels = valueModel.labels || {};
 
-  const layers = [
-    { level: 'L5', label: labels.l5, desc: labels.l5Desc, color: 'bg-[#007AFF]', width: 'w-1/4' },
-    { level: 'L4', label: labels.l4, desc: labels.l4Desc, color: 'bg-[#409CFF]', width: 'w-2/5' },
-    { level: 'L3', label: labels.l3, desc: labels.l3Desc, color: 'bg-[#80BDFF]', width: 'w-1/2' },
-    { level: 'L2', label: labels.l2, desc: labels.l2Desc, color: 'bg-[#B3D9FF]', width: 'w-3/4' },
-    { level: 'L1', label: labels.l1, desc: labels.l1Desc, color: 'bg-[#F0F8FF]', width: 'w-full' },
+  // Data structure
+  // Top (L5) to Bottom (L1)
+  // Widths: 20%, 35%, 50%, 75%, 100% (Adjusted for smoother visual steps)
+  const tiers = [
+    { 
+      level: 'L5', 
+      label: labels.l5 || 'VALUE', 
+      text: labels.l5Desc || '商业价值层', 
+      color: '#007BFF', 
+      textColor: 'text-white', 
+      width: 'w-[20%]',
+      shadow: 'shadow-blue-200'
+    },
+    { 
+      level: 'L4', 
+      label: labels.l4 || 'Asset', 
+      text: labels.l4Desc || '潜在商业层', 
+      color: '#4499FF', 
+      textColor: 'text-white', 
+      width: 'w-[35%]',
+      shadow: 'shadow-blue-200'
+    },
+    { 
+      level: 'L3', 
+      label: labels.l3 || 'Level of Use', 
+      text: labels.l3Desc || '使用质量层', 
+      color: '#80BDFF', 
+      textColor: 'text-white', // Changed to white for better contrast on mid-blue
+      width: 'w-[50%]',
+      shadow: 'shadow-blue-100'
+    },
+    { 
+      level: 'L2', 
+      label: labels.l2 || 'Usage', 
+      text: labels.l2Desc || '用户覆盖层', 
+      color: '#C6E4FF', 
+      textColor: 'text-[#004085]', // Dark blue text for contrast
+      width: 'w-[75%]',
+      shadow: 'shadow-blue-50'
+    },
+    { 
+      level: 'L1', 
+      label: labels.l1 || 'Effort', 
+      text: labels.l1Desc || '需求数', 
+      color: '#EBF5FF', 
+      textColor: 'text-[#004085]', // Dark blue text
+      width: 'w-[100%]',
+      shadow: 'shadow-gray-50'
+    },
   ];
 
   return (
-    <div className="w-full aspect-square md:aspect-[4/3] bg-white rounded-xl shadow-sm border border-neutral-200 p-8 md:p-12 relative overflow-hidden flex flex-col">
-      {/* Title */}
-      <div className="absolute top-8 left-8">
-        <h3 className="text-xl md:text-2xl font-bold text-black tracking-tight leading-tight">
-            {valueModel.subtitle?.split('：')[0] || "产品价值量化模型：VALUE"}
-        </h3>
+    <div className="w-full bg-white rounded-xl shadow-sm border border-neutral-200 p-6 md:p-10 relative overflow-hidden flex flex-col font-sans">
+      
+      {/* Title - Reduced Size */}
+      <div className="mb-8 md:mb-10 pl-2 border-l-4 border-[#007BFF]">
+         <h3 className="text-lg md:text-2xl font-bold text-black tracking-tight leading-none">
+            {language === 'zh' ? '产品价值量化模型：VALUE' : 'Product Value Quantification Model: VALUE'}
+         </h3>
       </div>
 
-      <div className="flex-1 flex flex-col justify-end gap-3 md:gap-4 mt-16 md:mt-12">
-        {layers.map((layer, index) => (
-          <div key={layer.level} className="flex items-center w-full">
-            {/* Left Side Label */}
-            <div className="w-24 md:w-32 flex flex-col items-end pr-4 text-right">
-                <span className="text-sm md:text-base text-gray-900 font-medium">
-                  <span className="font-bold">{layer.label}</span>
-                </span>
-                <span className="text-xs text-gray-500 font-medium">{layer.level}</span>
-            </div>
+      <div className="flex flex-row w-full gap-4 md:gap-12 items-end">
+        
+        {/* Left Labels Column - Compact */}
+        <div className="flex flex-col justify-between py-1 h-[260px] md:h-[320px] w-1/3 md:w-1/4">
+           {tiers.map((tier) => (
+              <div key={tier.level} className="flex flex-col justify-center h-10 md:h-12 border-b border-dashed border-gray-100 last:border-0">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-xs md:text-sm font-bold text-gray-400 font-mono">{tier.level}</span>
+                    <span className="text-sm md:text-base font-bold text-gray-800 whitespace-nowrap overflow-hidden text-ellipsis">{tier.label}</span>
+                  </div>
+              </div>
+           ))}
+        </div>
 
-            {/* Pyramid Block Container */}
-            <div className="flex-1 flex justify-center">
-              <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                whileInView={{ width: "100%", opacity: 1 }} // Initially animate to container width, but we restrict it with CSS classes below
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`${layer.color} ${layer.width} h-10 md:h-12 rounded-sm flex items-center justify-center shadow-sm relative group`}
-              >
-                  {/* Text inside block */}
-                  <span className={`text-xs md:text-sm font-medium whitespace-nowrap px-2 ${index === 4 ? 'text-gray-600' : 'text-white'}`}>
-                    {layer.desc}
-                  </span>
-              </motion.div>
-            </div>
-          </div>
-        ))}
+        {/* Right Pyramid Column - Stepped Pyramid */}
+        <div className="flex-1 flex flex-col justify-between py-1 h-[260px] md:h-[320px] w-full items-center">
+            {tiers.map((tier, index) => (
+                <div key={tier.level} className="w-full flex justify-center items-center h-10 md:h-12">
+                    <motion.div
+                        initial={{ scaleX: 0, opacity: 0 }}
+                        whileInView={{ scaleX: 1, opacity: 1 }}
+                        transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+                        className={`h-full flex items-center justify-center ${tier.width}`}
+                    >
+                         <div 
+                            className={`h-full w-full rounded-[3px] flex items-center justify-center shadow-sm ${tier.shadow} hover:brightness-105 transition-all cursor-default`}
+                            style={{ backgroundColor: tier.color }}
+                         >
+                             <span className={`flex items-center justify-center h-full font-semibold text-xs md:text-sm tracking-wide ${tier.textColor}`}>
+                                {tier.text}
+                             </span>
+                         </div>
+                    </motion.div>
+                </div>
+            ))}
+        </div>
+
       </div>
     </div>
   );
